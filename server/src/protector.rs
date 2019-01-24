@@ -1,12 +1,7 @@
 extern crate rand;
 use rand::prelude::*;
 
-struct Protector {
-    current_key: String,
-    current_hash: String,
-}
-
-fn get_hash_str() -> String {
+pub fn get_hash_str() -> String {
     let mut hash = String::with_capacity(5);
     let mut rng = rand::thread_rng();
     for _i in 0..5 {
@@ -19,7 +14,7 @@ fn get_hash_str() -> String {
     hash
 }
 
-fn get_session_key() -> String {
+pub fn get_session_key() -> String {
     let mut result = String::with_capacity(10);
     let mut rng = rand::thread_rng();
     for _i in 1..11 {
@@ -39,7 +34,7 @@ fn get_session_key() -> String {
     result
 }
 
-fn verify_hash(hash: &str) ->bool {
+pub fn verify_hash(hash: &str) ->bool {
     if hash.len() !=5 {
         return false
     }
@@ -51,7 +46,7 @@ fn verify_hash(hash: &str) ->bool {
     return true
 }
 
-fn next_session_key(hash: &str,session_key: &str) -> String {
+pub fn next_session_key(hash: &str,session_key: &str) -> String {
     if !verify_hash(hash) {return "Error".to_string()}
     let mut result = 0;
     for c in hash.chars() {
@@ -62,7 +57,7 @@ fn next_session_key(hash: &str,session_key: &str) -> String {
     return result.to_string()
 }
 
-fn calc_hash(session_key:String,val:u64) ->String{
+pub fn calc_hash(session_key:String,val:u64) ->String{
     let mut result = String::new();
     match val {
         1 => {
@@ -87,7 +82,6 @@ fn calc_hash(session_key:String,val:u64) ->String{
             slice1.to_string() + &slice2.to_string()
         }
         4 => {
-            println!("{}",session_key);
             let keypart = &session_key[1..session_key.len()-1];
             let mut num = 0;
             for c in keypart.chars() {
@@ -117,12 +111,3 @@ fn calc_hash(session_key:String,val:u64) ->String{
         }
     }
 }
-
-//fn main() {
- //   let mut p = Protector {currentKey:"0".to_string(), currentHash:"0".to_string()};
-  //  p.currentHash = get_hash_str();
-   // p.currentKey = get_session_key();
-    
-  //  println!("hash {},key {}",p.currentHash,p.currentKey);
-   // print!("new key {}",next_session_key(&p.currentHash, &p.currentKey));
-//}

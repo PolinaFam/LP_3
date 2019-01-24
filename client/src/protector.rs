@@ -1,11 +1,6 @@
 extern crate rand;
 use rand::prelude::*;
 
-struct Protector {
-    current_key: String,
-    current_hash: String,
-}
-
 pub fn get_hash_str() -> String {
     let mut hash = String::with_capacity(5);
     let mut rng = rand::thread_rng();
@@ -87,7 +82,6 @@ pub fn calc_hash(session_key:String,val:u64) ->String{
             slice1.to_string() + &slice2.to_string()
         }
         4 => {
-            println!("{}",session_key);
             let keypart = &session_key[1..session_key.len()-1];
             let mut num = 0;
             for c in keypart.chars() {
@@ -117,12 +111,3 @@ pub fn calc_hash(session_key:String,val:u64) ->String{
         }
     }
 }
-
-//fn main() {
- //   let mut p = Protector {currentKey:"0".to_string(), currentHash:"0".to_string()};
-  //  p.currentHash = get_hash_str();
-   // p.currentKey = get_session_key();
-    
-  //  println!("hash {},key {}",p.currentHash,p.currentKey);
-   // print!("new key {}",next_session_key(&p.currentHash, &p.currentKey));
-//}
